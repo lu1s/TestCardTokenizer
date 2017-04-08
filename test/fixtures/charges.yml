@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  card: one
+  amount: 9.99
+  charge_timestamp: 2017-04-06 12:21:57
+
+two:
+  account: two
+  card: two
+  amount: 9.99
+  charge_timestamp: 2017-04-06 12:21:57

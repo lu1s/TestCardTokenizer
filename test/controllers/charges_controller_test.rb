@@ -35,15 +35,36 @@ class ChargesControllerTest < ActionController::TestCase
 
 		@controller = stashed_controller
 
+		amount = rand(45.5..250.5)
+		balance = amount
+
 		post :create_charge, params: {
 			card_token: token,
-			amount: rand(45.5..250.5).to_s,
+			amount: amount.to_s,
 			account_name: 'unit_test_api_account'
 		}
 		assert_response :success
 		json_response = JSON.parse(@response.body)
 		assert json_response["success"], "success should be true"
 		assert json_response["message"] == "OK", "OK message should have been thrown"
+
+		amount_two = rand(45.5..250.5)
+		balance += amount_two
+
+		puts 'testing another correct charge...'
+		post :create_charge, params: {
+			card_token: token,
+			amount: amount_two.to_s,
+			account_name: 'unit_test_api_account'
+		}
+		assert_response :success
+		json_response = JSON.parse(@response.body)
+		assert json_response["success"], "success should be true"
+		assert json_response["message"] == "OK", "OK message should have been thrown"
+	
+		puts 'testing correct balance on account...'
+		account = Account.where(name: 'unit_test_api_account').first
+		assert balance.round(2) == account.balance.round(2), "account balance was not incremented correctly"
 
 		#check for some failed charge attempts
 		puts 'testing incorrect token...'

@@ -22,6 +22,8 @@ class ChargesController < ApplicationController
 							card: card, 
 							amount: params[:amount].to_d,
 							charge_timestamp: DateTime.now)
+		account.balance += charge.amount
+		account.save
 		success_response "OK"
 	end
 end
